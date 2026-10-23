@@ -16,6 +16,10 @@ header {
   background: #1F6F3E;
   color: #F7F3E8;
 }
+header img {
+  width: 110px;
+  height: auto;
+}
 nav {
   background: #262626;
 }
