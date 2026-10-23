@@ -104,3 +104,28 @@ nav ul {
   background: #ffffff;
   border-top: 4px solid #D8A22B;
 }
+
+th, td {
+  white-space: nowrap;
+}
+.table-scroll {
+  overflow-x: auto;
+}
+
+@media (max-width: 700px) {
+  body {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "header"
+      "nav"
+      "main"
+      "aside"
+      "footer";
+  }
+  nav {
+    position: static;
+  }
+  nav ul {
+    flex-direction: column;
+  }
+}
