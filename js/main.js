@@ -1,29 +1,27 @@
-// a comment: one line, ignored by the browser
-/* a comment over
- several lines */
-const rate = 52; // a statement, ended with ;
-console.log(rate * 2); // another statement
+// Ereteti Dairy Sacco — js/main.js
 
-// another statement
-console.log("External JS");
+// ---- deliveries.html: litres, checked as typed ----
+const litres = document.querySelector('#litres');
+const litresMessage = document.querySelector('#litres-message');
 
+function checkLitres() {
+  const amount = Number(litres.value);
 
-/*in class work 09.11.2026 from line 1
-
-const litres = document.querySelector("#Litres");
-const litresMessage = document.querySelector("#Litres-message");
-
-console.log.(litres);
-console.log.(litresMessage);
-
-function checkLitres(){
-    let amount = Number(Litres.value);
-
-    if(litres.value === ""){
-        litresMessage.textCOntent = "";
-        litres.classList.remove("invalid");    
-    }
+  if (litres.value === '') {
+    litresMessage.textContent = '';
+    litres.classList.remove('invalid');
+  } else if (amount <= 0) {
+    litresMessage.textContent = 'Litres must be more than 0.';
+    litres.classList.add('invalid');
+  } else if (amount > 60) {
+    litresMessage.textContent =
+      'Over 60 litres in one session. Check the reading.';
+    litres.classList.add('invalid');
+  } else {
+    litresMessage.textContent = '';
+    litres.classList.remove('invalid');
+  }
 }
-
-
-
+if (litres) {
+  litres.addEventListener('input', checkLitres);
+}
