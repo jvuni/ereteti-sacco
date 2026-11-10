@@ -25,3 +25,90 @@ function checkLitres() {
 if (litres) {
   litres.addEventListener('input', checkLitres);
 }
+// ---- deliveries.html: member number, checked on blur ----
+const member = document.querySelector('#member');
+const memberMessage = document.querySelector('#member-message');
+const memberShape = /^ER-[0-9]{4}$/;
+
+function checkMember() {
+  const typed = member.value.trim().toUpperCase();
+  member.value = typed;
+
+  if (memberShape.test(typed)) {
+    memberMessage.textContent = '';
+    member.classList.remove('invalid');
+  } else {
+    memberMessage.textContent =
+      'A member number looks like ER-0001.';
+    member.classList.add('invalid');
+  }
+}
+
+if (member) {
+  member.addEventListener('blur', checkMember);
+}
+// ---- deliveries.html: the form, stopped before it is sent ----
+const deliveryForm = document.querySelector('#delivery-form');
+const formMessage = document.querySelector('#form-message');
+
+function recordDelivery(event) {
+  event.preventDefault();
+  checkMember();
+  checkLitres();
+
+  if (member.classList.contains('invalid')) {
+    member.focus();
+  } else if (litres.classList.contains('invalid')) {
+    litres.focus();
+  } else {
+    formMessage.textContent = 'Checked: ' + member.value + ', ' +
+      litres.value + ' litres. Nothing is sent yet: that needs ' +
+      'a server.';
+  }
+}
+
+if (deliveryForm) {
+  deliveryForm.addEventListener('submit', recordDelivery);
+}
+// ---- routes.html: the routes, filtered as you type ----
+const search = document.querySelector('#route-search');
+const routeCount = document.querySelector('#route-count');
+const routeSections = document.querySelectorAll('main section');
+
+function filterRoutes() {
+  const wanted = search.value.trim().toLowerCase();
+  let shown = 0;
+
+  for (const section of routeSections) {
+    const words = section.textContent.toLowerCase();
+    if (words.includes(wanted)) {
+      section.hidden = false;
+      shown = shown + 1;
+    } else {
+      section.hidden = true;
+    }
+  }
+
+  routeCount.textContent =
+    shown + ' of ' + routeSections.length + ' routes';
+}
+
+if (search) {
+  search.addEventListener('input', filterRoutes);
+}
+// ---- deliveries.html: the accepted total, from the table ----
+const totalCell = document.querySelector('#accepted-total');
+
+if (totalCell) {
+  const rows = document.querySelectorAll('tbody tr');
+  let total = 0;
+
+  for (const row of rows) {
+    const cells = row.querySelectorAll('td');
+    if (cells[4].textContent === 'Yes') {
+      total = total + Number(cells[3].textContent);
+    }
+  }
+
+  totalCell.textContent = total.toFixed(2);
+}
